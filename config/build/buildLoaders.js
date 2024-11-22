@@ -4,6 +4,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 function buildLoaders(options) {
     const { buildMode } = options;
 
+    const isProduction = buildMode === 'production';
+
     const vueLoader = {
         test: /.vue$/,
         loader: "vue-loader",
@@ -28,13 +30,14 @@ function buildLoaders(options) {
     const styleLoader = {
         test: /\.s?css$/,
         use: [
-            "style-loader",
-            MiniCssExtractPlugin.loader,
+            isProduction ? MiniCssExtractPlugin.loader: "style-loader",
             "css-loader",
             {
                 loader: "postcss-loader",
                 options: {
-                    plugins: () => [autoprefixer()],
+                    postcssOptions: {
+                        plugins: () => [autoprefixer()],
+                    }
                 },
             },
             "sass-loader",
