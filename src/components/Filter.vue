@@ -49,7 +49,7 @@ export default {
         },
     },
 
-    emits: ['selected'],
+    emits: ['update:selected'],
 
     data() {
         return {
@@ -62,8 +62,8 @@ export default {
             this.isVisible = !this.isVisible
         },
 
-        optionSelected(item) {
-            this.$emit('selected', item)
+        optionSelected(currentFilter) {
+            this.$emit('update:selected', currentFilter)
 
             this.dropdownToggle()
         },
