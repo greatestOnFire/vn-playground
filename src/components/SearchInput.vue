@@ -6,7 +6,7 @@
             @input="handleSearch($event.target.value)"
             placeholder="Search note..."
         />
-        <SearchIcon class="search-icon" />
+        <search-icon class="search-icon" />
     </div>
 </template>
 

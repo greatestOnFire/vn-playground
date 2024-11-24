@@ -1,19 +1,27 @@
 <template>
     <section class="todos">
-        <todo-item
-            class="todos__item"
-            v-for="todoItem of todos"
-            :todo="todoItem"
-            :key="todoItem.id"
-        />
+        <template v-if="todos.length">
+            <todo-item
+                v-for="todoItem of todos"
+                :todo="todoItem"
+                :key="todoItem.id"
+            />
+        </template>
+        <template v-else>
+            <article class="todos__empty">
+                <empty-image />
+                <p>Empty...</p>
+            </article>
+        </template>
     </section>
 </template>
 
 <script>
 import TodoItem from '@components/todos/TodoItem.vue'
+import EmptyImage from '@assets/images/EmptyImage.vue'
 
 export default {
-    components: { TodoItem },
+    components: { EmptyImage, TodoItem },
     props: {
         todos: {
             type: Array,
@@ -24,7 +32,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .todos {
     display: grid;
     justify-content: center;
@@ -33,48 +41,14 @@ export default {
     font-family: 'Kanit', sans-serif;
     text-transform: uppercase;
 
-    &__item {
-        font-size: 20px;
-        font-weight: 500;
+    &__empty {
         display: grid;
-        align-items: center;
-        grid-template-columns: auto 1fr;
-        gap: 5px;
-        border-bottom: 1px solid #6c63ff;
+        justify-content: center;
+        text-align: center;
 
-        input {
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            width: 26px;
-            height: 26px;
-            border: 1px solid #6c63ff;
-            border-radius: 2px;
-            appearance: none;
-
-            &:before {
-                content: '';
-                width: 1rem;
-                height: 1rem;
-                clip-path: polygon(
-                    28% 38%,
-                    41% 53%,
-                    75% 24%,
-                    86% 38%,
-                    40% 78%,
-                    15% 50%
-                );
-                transform: scale(0);
-                background-color: #fff;
-            }
-
-            &:checked {
-                background-color: #6c63ff;
-
-                &::before {
-                    transform: scale(1);
-                }
-            }
+        p {
+            font-size: 20px;
+            font-weight: 400;
         }
     }
 }

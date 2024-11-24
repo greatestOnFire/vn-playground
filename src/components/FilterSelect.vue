@@ -11,7 +11,7 @@
             aria-controls="widget__filter__dropdown"
         >
             <span class="selected-value">{{ filter }}</span>
-            <DropdownArrowIcon />
+            <dropdown-arrow-icon />
         </button>
         <ul
             role="listbox"

@@ -3,25 +3,25 @@
         <section class="widget">
             <h1>Todo list</h1>
             <div class="widget__container">
-                <Search v-model:search="searchValue" />
-                <Filter
+                <search-input v-model:search="searchValue" />
+                <filter-select
                     :filters="filters"
                     :filter="filter"
                     v-model:selected="filter"
                 />
             </div>
         </section>
-        <Todos :todos="filteredAndSearchedTodos" />
+        <todos-list :todos="filteredAndSearchedTodos" />
     </main>
 </template>
 
 <script>
-import Filter from '@components/Filter.vue'
-import Search from '@components/Search.vue'
-import Todos from '@components/todos'
+import FilterSelect from '@components/FilterSelect.vue'
+import SearchInput from '@components/SearchInput.vue'
+import TodosList from '@components/todos'
 
 export default {
-    components: { Search, Filter, Todos },
+    components: { SearchInput, FilterSelect, TodosList },
 
     data() {
         return {
@@ -69,6 +69,7 @@ export default {
 .main {
     display: grid;
     justify-content: center;
+    gap: 30px;
 }
 
 .widget {
