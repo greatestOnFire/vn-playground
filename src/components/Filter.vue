@@ -76,6 +76,7 @@ export default {
     display: grid;
     position: relative;
     font-family: 'Kanit', sans-serif;
+    min-width: 120px;
 
     &__select {
         display: grid;

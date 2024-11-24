@@ -11,26 +11,17 @@
                 />
             </div>
         </section>
-        <section class="todos">
-            <article v-for="todo in filteredAndSearchedTodos">
-                <input
-                    type="checkbox"
-                    v-model="todo.completed"
-                    :key="todo.id"
-                />
-                <p>{{ todo.title }}</p>
-            </article>
-        </section>
+        <Todos :todos="filteredAndSearchedTodos" />
     </main>
 </template>
 
 <script>
 import Filter from '@components/Filter.vue'
 import Search from '@components/Search.vue'
-import search from '@components/Search.vue'
+import Todos from '@components/todos'
 
 export default {
-    components: { Search, Filter },
+    components: { Search, Filter, Todos },
 
     data() {
         return {
@@ -93,7 +84,7 @@ export default {
 
     &__container {
         display: grid;
-        grid-template-columns: 2fr 100px;
+        grid-template-columns: 2fr 1fr 1fr;
         max-width: 800px;
         gap: 16px;
     }
