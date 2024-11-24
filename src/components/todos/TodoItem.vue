@@ -2,17 +2,32 @@
     <article class="todos__item">
         <input type="checkbox" v-model="todo.completed" />
         <p>{{ todo.title }}</p>
+        <div class="item__btn-group">
+            <mod-button class="item__btn">
+                <edit-icon />
+            </mod-button>
+            <mod-button class="item__btn" @click="$emit('remove', todo.id)">
+                <trash-icon />
+            </mod-button>
+        </div>
     </article>
 </template>
 
 <script>
+import ModButton from '@components/UI/ModButton.vue'
+import EditIcon from '@assets/UI/Icons/EditIcon.vue'
+import TrashIcon from '@assets/UI/Icons/TrashIcon.vue'
+
 export default {
+    components: { TrashIcon, EditIcon, ModButton },
     props: {
         todo: {
             type: Object,
             required: true,
         },
     },
+
+    emits: ['remove'],
 }
 </script>
 
@@ -22,9 +37,13 @@ export default {
     font-weight: 500;
     display: grid;
     align-items: center;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 4fr 1fr;
     gap: 16px;
     border-bottom: 1px solid #6c63ff;
+
+    &:last-of-type {
+        border-bottom: none;
+    }
 
     input {
         display: grid;
@@ -63,6 +82,19 @@ export default {
                 text-decoration: line-through;
                 color: rgba(37, 37, 37, 0.5);
             }
+        }
+    }
+
+    .item__btn-group {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        gap: 8px;
+        justify-content: flex-end;
+
+        .item__btn {
+            background-color: transparent;
+            border: none;
+            padding: 0;
         }
     }
 }

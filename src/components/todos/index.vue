@@ -5,6 +5,7 @@
                 v-for="todoItem of todos"
                 :todo="todoItem"
                 :key="todoItem.id"
+                @remove="removeTodo"
             />
         </template>
         <template v-else>
@@ -27,6 +28,14 @@ export default {
             type: Array,
             required: true,
             default: () => [],
+        },
+    },
+
+    emits: ['removeTodo'],
+
+    methods: {
+        removeTodo(todo) {
+            this.$emit('removeTodo', todo)
         },
     },
 }

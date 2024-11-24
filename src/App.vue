@@ -11,7 +11,10 @@
                 />
             </div>
         </section>
-        <todos-list :todos="filteredAndSearchedTodos" />
+        <todos-list
+            @remove-todo="removeItem"
+            :todos="filteredAndSearchedTodos"
+        />
     </main>
 </template>
 
@@ -35,12 +38,23 @@ export default {
                     completed: false,
                 },
                 {
-                    id: 1,
+                    id: 2,
                     title: 'Note #2',
+                    completed: true,
+                },
+                {
+                    id: 3,
+                    title: 'Note #3',
                     completed: false,
                 },
             ],
         }
+    },
+
+    methods: {
+        removeItem(id) {
+            this.todos = this.todos.filter((todo) => todo.id !== id)
+        },
     },
 
     computed: {
