@@ -24,6 +24,15 @@ export default {
         todo: {
             type: Object,
             required: true,
+            id: {
+                type: [String, Number],
+            },
+            title: {
+                type: String,
+            },
+            completed: {
+                type: Boolean,
+            },
         },
     },
 
@@ -95,6 +104,7 @@ export default {
             background-color: transparent;
             border: none;
             padding: 0;
+            cursor: pointer;
         }
     }
 }

@@ -1,8 +1,11 @@
 <template>
     <div class="widget__filter">
         <button
-            @click="dropdownToggle"
+            @click.stop="dropdownToggle"
             name="filter"
+            :class="{
+                open: isVisible,
+            }"
             class="widget__filter__select"
             role="combobox"
             aria-label="Filter by name"
@@ -11,15 +14,9 @@
             aria-controls="widget__filter__dropdown"
         >
             <span class="selected-value">{{ filter }}</span>
-            <dropdown-arrow-icon />
+            <dropdown-arrow-icon class="filter__icon" />
         </button>
-        <ul
-            role="listbox"
-            :class="{
-                open: isVisible,
-            }"
-            class="widget__filter__dropdown"
-        >
+        <ul role="listbox" class="widget__filter__dropdown">
             <li
                 v-for="option of filters"
                 role="option"
@@ -94,6 +91,23 @@ export default {
         padding: 5px;
         text-transform: uppercase;
         box-sizing: border-box;
+
+        .filter__icon {
+            transition: all 0.3s ease-in-out;
+        }
+
+        &.open {
+            background-color: #534cc2;
+            border: 2px inset #6c63ff;
+
+            .filter__icon {
+                rotate: 180deg;
+            }
+
+            + .widget__filter__dropdown {
+                visibility: visible;
+            }
+        }
     }
 
     &__dropdown {
@@ -107,10 +121,6 @@ export default {
         border: 1px solid #6c63ff;
         visibility: hidden;
         transition: visibility 0.1s ease;
-
-        &.open {
-            visibility: visible;
-        }
 
         li {
             list-style: none;
