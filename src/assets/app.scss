@@ -1,3 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,500;1,14..32,500&display=swap');
+@use '@assets/styles/_fonts.scss';
+@use '@assets/styles/_normalize.scss';
+@use '@assets/styles/_variables.scss';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+
 

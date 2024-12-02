@@ -3,18 +3,36 @@
         <section class="widget">
             <h1>Todo list</h1>
             <div class="widget__container">
-                <search-input v-model:search="searchValue" />
+                <search-input
+                    class="container__search"
+                    v-model:search="searchValue"
+                />
                 <filter-select
+                    class="container__filter"
                     :filters="filters"
                     :filter="filter"
                     v-model:selected="filter"
                 />
+                <div class="widget__theme">
+                    <mod-button @click.stop="toggleTheme">
+                        <template v-if="theme === 'light'">
+                            <moon-icon class="icon" />
+                        </template>
+                        <template v-else>
+                            <sun-icon class="icon" />
+                        </template>
+                    </mod-button>
+                </div>
             </div>
         </section>
         <todos-list
             @remove-todo="removeItem"
             :todos="filteredAndSearchedTodos"
         />
+
+        <mod-button class="create-todo">
+            <plus-icon />
+        </mod-button>
     </main>
 </template>
 
@@ -22,9 +40,21 @@
 import FilterSelect from '@components/FilterSelect.vue'
 import SearchInput from '@components/SearchInput.vue'
 import TodosList from '@components/todos'
+import MoonIcon from '@assets/UI/Icons/MoonIcon.vue'
+import ModButton from '@components/UI/ModButton.vue'
+import SunIcon from '@assets/UI/Icons/SunIcon.vue'
+import PlusIcon from '@assets/UI/Icons/PlusIcon.vue'
 
 export default {
-    components: { SearchInput, FilterSelect, TodosList },
+    components: {
+        PlusIcon,
+        SunIcon,
+        ModButton,
+        MoonIcon,
+        SearchInput,
+        FilterSelect,
+        TodosList,
+    },
 
     data() {
         return {
@@ -48,12 +78,21 @@ export default {
                     completed: false,
                 },
             ],
+            theme: 'light',
         }
     },
 
     methods: {
         removeItem(id) {
             this.todos = this.todos.filter((todo) => todo.id !== id)
+        },
+
+        toggleTheme() {
+            if (this.theme === 'light') {
+                return (this.theme = 'dark')
+            }
+
+            return (this.theme = 'light')
         },
     },
 
@@ -76,6 +115,12 @@ export default {
             )
         },
     },
+
+    watch: {
+        theme() {
+            document.documentElement.setAttribute('data-theme', this.theme)
+        },
+    },
 }
 </script>
 
@@ -84,6 +129,25 @@ export default {
     display: grid;
     justify-content: center;
     gap: 30px;
+    color: var(--text-color);
+
+    .create-todo {
+        position: absolute;
+        right: 320px;
+        bottom: 32px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 50%;
+        padding: 13px;
+        box-sizing: border-box;
+        background-color: var(--primary-color);
+
+        @media (max-width: 960px) {
+            right: 30px;
+        }
+    }
 }
 
 .widget {
@@ -100,8 +164,39 @@ export default {
     &__container {
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
-        max-width: 800px;
+        grid-template-areas: 'search filter theme';
+        max-width: 750px;
         gap: 16px;
+
+        @media (max-width: 760px) {
+            grid-template-areas:
+                'search search search'
+                'filter filter theme';
+        }
+
+        .container__search {
+            grid-area: search;
+        }
+
+        .container__filter {
+            grid-area: filter;
+        }
+    }
+
+    &__theme {
+        display: grid;
+        grid-area: theme;
+
+        button {
+            display: grid;
+            justify-content: center;
+            padding: 8px;
+            background-color: #6c63ff;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            box-sizing: border-box;
+        }
     }
 }
 </style>

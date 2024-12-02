@@ -44,6 +44,7 @@ export default {
 .todos__item {
     font-size: 20px;
     font-weight: 500;
+    color: var(--text-color);
     display: grid;
     align-items: center;
     grid-template-columns: auto 4fr 1fr;
@@ -89,7 +90,7 @@ export default {
 
             + p {
                 text-decoration: line-through;
-                color: rgba(37, 37, 37, 0.5);
+                opacity: 0.5;
             }
         }
     }

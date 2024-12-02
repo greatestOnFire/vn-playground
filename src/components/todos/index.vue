@@ -50,6 +50,10 @@ export default {
     font-family: 'Kanit', sans-serif;
     text-transform: uppercase;
 
+    @media screen and (max-width: 760px) {
+        grid-template-columns: 1fr;
+    }
+
     &__empty {
         display: grid;
         justify-content: center;

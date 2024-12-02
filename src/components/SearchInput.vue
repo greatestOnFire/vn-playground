@@ -41,16 +41,22 @@ export default {
     width: 100%;
     position: relative;
 
+    @media screen and (max-width: 760px) {
+        min-width: 100%;
+    }
+
     input {
         width: 100%;
         padding: 8px 16px;
-        border: 1px solid rgb(108, 99, 255);
+        border: 1px solid;
+        border-color: var(--external-primary-color);
         border-radius: 5px;
         font-size: 16px;
         font-family: 'Inter', serif;
         font-weight: 500;
-        color: rgb(195, 193, 230);
-        appearance: none;
+        color: var(--external-primary-color);
+        box-sizing: border-box;
+        background-color: transparent;
 
         &::placeholder {
             color: inherit;
@@ -58,16 +64,18 @@ export default {
 
         &:focus,
         &:focus-visible {
-            color: rgb(108, 99, 255);
-            outline: 1px solid rgba(108, 99, 255, 0.4);
-            filter: drop-shadow(1px 1px 3px rgba(108, 99, 255));
+            outline: 1px solid var(--external-primary-color);
         }
+    }
+
+    &:focus {
+        filter: drop-shadow(1px 1px 3px var(--external-primary-color));
     }
 
     .search-icon {
         position: absolute;
         right: 16px;
-        background-color: white;
+        fill: var(--external-primary-color);
     }
 }
 </style>

@@ -84,13 +84,14 @@ export default {
         font-size: 14px;
         font-weight: 700;
         width: 100%;
-        background-color: rgb(88, 80, 221);
+        background-color: #6c63ff;
         color: #fff;
         border-radius: 5px;
         border-color: transparent;
         padding: 5px;
         text-transform: uppercase;
         box-sizing: border-box;
+        cursor: pointer;
 
         .filter__icon {
             transition: all 0.3s ease-in-out;
@@ -121,6 +122,7 @@ export default {
         border: 1px solid #6c63ff;
         visibility: hidden;
         transition: visibility 0.1s ease;
+        z-index: 2;
 
         li {
             list-style: none;
