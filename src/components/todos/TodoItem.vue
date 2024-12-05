@@ -1,25 +1,27 @@
 <template>
     <article class="todos__item">
-        <input type="checkbox" v-model="todo.completed" />
-        <p>{{ todo.title }}</p>
+        <input type="checkbox" :id="todo.id" v-model="todo.completed" />
+        <p>
+            <label :for="todo.id">{{ todo.title }}</label>
+        </p>
         <div class="item__btn-group">
-            <mod-button class="item__btn">
+            <u-i-button class="item__btn" @click="$emit('edit', todo)">
                 <edit-icon />
-            </mod-button>
-            <mod-button class="item__btn" @click="$emit('remove', todo.id)">
+            </u-i-button>
+            <u-i-button class="item__btn" @click="$emit('remove', todo.id)">
                 <trash-icon />
-            </mod-button>
+            </u-i-button>
         </div>
     </article>
 </template>
 
 <script>
-import ModButton from '@components/UI/ModButton.vue'
 import EditIcon from '@assets/UI/Icons/EditIcon.vue'
 import TrashIcon from '@assets/UI/Icons/TrashIcon.vue'
+import UIButton from '@components/UI/UIButton.vue'
 
 export default {
-    components: { TrashIcon, EditIcon, ModButton },
+    components: { UIButton, TrashIcon, EditIcon },
     props: {
         todo: {
             type: Object,
@@ -36,7 +38,7 @@ export default {
         },
     },
 
-    emits: ['remove'],
+    emits: ['edit', 'remove', 'update:todo'],
 }
 </script>
 

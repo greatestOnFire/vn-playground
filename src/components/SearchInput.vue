@@ -1,7 +1,7 @@
 <template>
     <div class="widget__search">
-        <input
-            type="search"
+        <u-i-input
+            type="'search'"
             :value="search"
             @input="handleSearch($event.target.value)"
             placeholder="Search note..."
@@ -12,9 +12,10 @@
 
 <script>
 import SearchIcon from '@assets/UI/Icons/SearchIcon.vue'
+import UIInput from '@components/UI/UIInput.vue'
 
 export default {
-    components: { SearchIcon },
+    components: { UIInput, SearchIcon },
     props: {
         search: {
             type: String,
@@ -27,6 +28,7 @@ export default {
 
     methods: {
         handleSearch(value) {
+            // console.log(value)
             this.$emit('update:search', value)
         },
     },
@@ -43,29 +45,6 @@ export default {
 
     @media screen and (max-width: 760px) {
         min-width: 100%;
-    }
-
-    input {
-        width: 100%;
-        padding: 8px 16px;
-        border: 1px solid;
-        border-color: var(--external-primary-color);
-        border-radius: 5px;
-        font-size: 16px;
-        font-family: 'Inter', serif;
-        font-weight: 500;
-        color: var(--external-primary-color);
-        box-sizing: border-box;
-        background-color: transparent;
-
-        &::placeholder {
-            color: inherit;
-        }
-
-        &:focus,
-        &:focus-visible {
-            outline: 1px solid var(--external-primary-color);
-        }
     }
 
     &:focus {

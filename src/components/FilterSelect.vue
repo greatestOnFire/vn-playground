@@ -1,7 +1,8 @@
 <template>
     <div class="widget__filter">
-        <button
+        <mod-button
             @click.stop="dropdownToggle"
+            :btn-type="'primary'"
             name="filter"
             :class="{
                 open: isVisible,
@@ -15,11 +16,13 @@
         >
             <span class="selected-value">{{ filter }}</span>
             <dropdown-arrow-icon class="filter__icon" />
-        </button>
+        </mod-button>
         <ul role="listbox" class="widget__filter__dropdown">
             <li
                 v-for="option of filters"
+                tabindex="0"
                 role="option"
+                @keydown.enter="optionSelected(option)"
                 @click="optionSelected(option)"
             >
                 {{ option }}
@@ -30,9 +33,10 @@
 
 <script>
 import DropdownArrowIcon from '@assets/UI/Icons/DropdownArrowIcon.vue'
+import ModButton from '@components/UI/ModButton.vue'
 
 export default {
-    components: { DropdownArrowIcon },
+    components: { ModButton, DropdownArrowIcon },
 
     props: {
         filter: {

@@ -14,7 +14,7 @@
                     v-model:selected="filter"
                 />
                 <div class="widget__theme">
-                    <mod-button @click.stop="toggleTheme">
+                    <mod-button :btn-type="'primary'" @click.stop="toggleTheme">
                         <template v-if="theme === 'light'">
                             <moon-icon class="icon" />
                         </template>
@@ -26,13 +26,37 @@
             </div>
         </section>
         <todos-list
+            @edit-todo="editTodo"
             @remove-todo="removeItem"
             :todos="filteredAndSearchedTodos"
         />
 
-        <mod-button class="create-todo">
+        <mod-button @click="dialogShow" class="create-todo">
             <plus-icon />
         </mod-button>
+
+        <note-dialog
+            @click="cancel"
+            @cancel="cancel"
+            @confirm="confirm"
+            class="note-dialog"
+            ref="modal"
+        >
+            <todo-form v-model:note="note">
+                <template #header>
+                    <header>
+                        <template v-if="id"> edit note</template>
+                        <template v-else>New Note</template>
+                    </header>
+                </template>
+                <template #menu class="">
+                    <mod-button @click="cancel" :btn-type="'secondary'">
+                        cancel
+                    </mod-button>
+                    <mod-button @click="confirm"> apply </mod-button>
+                </template>
+            </todo-form>
+        </note-dialog>
     </main>
 </template>
 
@@ -44,9 +68,13 @@ import MoonIcon from '@assets/UI/Icons/MoonIcon.vue'
 import ModButton from '@components/UI/ModButton.vue'
 import SunIcon from '@assets/UI/Icons/SunIcon.vue'
 import PlusIcon from '@assets/UI/Icons/PlusIcon.vue'
+import NoteDialog from '@components/UI/NoteDialog.vue'
+import TodoForm from '@components/todos/TodoForm.vue'
 
 export default {
     components: {
+        TodoForm,
+        NoteDialog,
         PlusIcon,
         SunIcon,
         ModButton,
@@ -78,6 +106,8 @@ export default {
                     completed: false,
                 },
             ],
+            note: '',
+            id: '',
             theme: 'light',
         }
     },
@@ -85,6 +115,55 @@ export default {
     methods: {
         removeItem(id) {
             this.todos = this.todos.filter((todo) => todo.id !== id)
+        },
+
+        editTodo(item) {
+            this.note = item['title']
+            this.id = item.id
+            this.dialogShow()
+        },
+
+        confirm() {
+            this.id ? this.changeTodoTitle() : this.createNote()
+
+            this.clearState()
+        },
+
+        cancel() {
+            this.clearState()
+            this.dialogClose()
+        },
+
+        changeTodoTitle() {
+            const todo = this.todos.findIndex((item) => item.id === this.id)
+            this.todos[todo]['title'] = this.note
+        },
+
+        createNote() {
+            if (!this.note) {
+                return
+            }
+
+            const todo = {
+                id: new Date().getTime(),
+                title: this.note,
+                completed: false,
+            }
+
+            this.todos.push(todo)
+        },
+
+        clearState() {
+            this.note = ''
+            this.id = ''
+        },
+
+        dialogShow() {
+            this.$refs.modal.show()
+        },
+
+        dialogClose() {
+            this.$refs.modal.close()
         },
 
         toggleTheme() {
@@ -135,17 +214,38 @@ export default {
         position: absolute;
         right: 320px;
         bottom: 32px;
-        display: grid;
         justify-content: center;
         align-items: center;
-        border: none;
         border-radius: 50%;
         padding: 13px;
         box-sizing: border-box;
-        background-color: var(--primary-color);
+        //background-color: var(--primary-color);
 
         @media (max-width: 960px) {
             right: 30px;
+        }
+    }
+
+    .note-dialog {
+        padding: 0;
+        background-color: rgba(37, 37, 37, 0.7);
+        border-color: transparent;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+        max-height: 100%;
+        height: 100%;
+
+        &[open] {
+            display: grid;
+            justify-content: center;
+            align-content: center;
+        }
+
+        button {
+            padding: 10px 22px;
+            text-transform: uppercase;
         }
     }
 }
@@ -188,13 +288,8 @@ export default {
         grid-area: theme;
 
         button {
-            display: grid;
+            align-items: center;
             justify-content: center;
-            padding: 8px;
-            background-color: #6c63ff;
-            border-radius: 5px;
-            cursor: pointer;
-            border: none;
             box-sizing: border-box;
         }
     }

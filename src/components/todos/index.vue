@@ -5,6 +5,7 @@
                 v-for="todoItem of todos"
                 :todo="todoItem"
                 :key="todoItem.id"
+                @edit="editTodo"
                 @remove="removeTodo"
             />
         </template>
@@ -31,9 +32,12 @@ export default {
         },
     },
 
-    emits: ['removeTodo'],
+    emits: ['editTodo', 'removeTodo'],
 
     methods: {
+        editTodo(todo) {
+            this.$emit('editTodo', todo)
+        },
         removeTodo(todo) {
             this.$emit('removeTodo', todo)
         },
